@@ -6,39 +6,36 @@ const $ = new Env("签到合集");
 const notify = $.isNode() ? require("./sendNotify") : "";
 
 // 公共变量
-// const DUOKAN_COOKIE = process.env.DUOKAN_COOKIE;
-// const CSDN_COOKIE = process.env.CSDN_COOKIE;
-
-let DUOKAN_COOKIE = process.env.DUOKAN_COOKIE;
-let CSDN_COOKIE = process.env.CSDN_COOKIE;
+const DUOKAN_COOKIE = process.env.DUOKAN_COOKIE;
+const CSDN_COOKIE = process.env.CSDN_COOKIE;
 
 let signList = [];
 let logs = "";
 
 async function downFile() {
-  // signList.forEach((element) => {
-
-  // });
-  let url1 =
-    "https://raw.githubusercontent.com/Wenmoux/checkbox/master/scripts/duokan.js";
-  await download(url1, "./");
-
-  let url2 =
-    "https://raw.githubusercontent.com/Wenmoux/checkbox/master/scripts/csdn.js";
-  await download(url2, "./");
+  if (DUOKAN_COOKIE) {
+    let url1 =
+      "https://raw.githubusercontent.com/Wenmoux/checkbox/master/scripts/duokan.js";
+    await download(url1, "./");
+  }
+  if (CSDN_COOKIE) {
+    let url2 =
+      "https://raw.githubusercontent.com/Wenmoux/checkbox/master/scripts/csdn.js";
+    await download(url2, "./");
+  }
 }
 
 async function changeFiele() {
   if (DUOKAN_COOKIE) {
-    let content = await fs.readFileSync("./duokan.json", "utf8");
+    let content = await fs.readFileSync("./duokan.js", "utf8");
     content = content.replace(/config.duokan.cookie/, `"${DUOKAN_COOKIE}"`);
-    await fs.writeFileSync("./duokan.json", content, "utf8");
+    await fs.writeFileSync("./duokan.js", content, "utf8");
   }
 
   if (CSDN_COOKIE) {
-    let content = await fs.readFileSync("./csdn.json", "utf8");
+    let content = await fs.readFileSync("./csdn.js", "utf8");
     content = content.replace(/config.csdn.cookie/, `"${CSDN_COOKIE}"`);
-    await fs.writeFileSync("./csdn.json", content, "utf8");
+    await fs.writeFileSync("./csdn.js", content, "utf8");
   }
 }
 
@@ -52,7 +49,7 @@ async function deleteFile(path) {
   }
 }
 
-async function start(taskList) {
+async function start() {
   if (DUOKAN_COOKIE) {
     signList.push("duokan");
   }
@@ -73,8 +70,8 @@ async function start(taskList) {
   console.log("替换变量完毕");
 
   console.log("------------开始签到任务------------");
-  for (let i = 0; i < taskList.length; i++) {
-    const task = require(`./${taskList[i]}.js`);
+  for (let i = 0; i < signList.length; i++) {
+    const task = require(`./${signList[i]}.js`);
     console.log(`任务${i + 1}执行中`);
     logs += (await task()) + "    \n\n";
   }
