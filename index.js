@@ -77,7 +77,7 @@ async function start() {
   }
   console.log("------------任务执行完毕------------\n");
 
-  await notify.sendNotify("CSDN & 多看阅读_签到-", logs);
+  await notify.sendNotify("CSDN、多看阅读_签到-", logs);
 }
 
 start();
