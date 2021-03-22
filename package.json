@@ -1,5 +1,5 @@
 {
-  "name": "checkbox",
+  "name": "checkbox-self",
   "version": "0.0.1",
   "description": "签到合集",
   "main": "index.js",
@@ -12,7 +12,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/qilin7/checkbox.git"
+    "url": "git+https://github.com/qilin7/checkbox-self.git"
   },
   "author": "qilin7",
   "license": "ISC",
